@@ -27,27 +27,32 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado> with SingleTickerProv
   late AnimationController controller;
   late Animation<double> rotation;
   late Animation<double> opacity;
+  late Animation<double> moveRight;
+
 
   @override
   void initState() {
-    controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 4000));
+    controller = AnimationController(
+      vsync: this, duration: const Duration(milliseconds: 4000)
+    );
 
     rotation = Tween(begin: 0.0, end: 2 * Math.pi,).animate( 
       CurvedAnimation(parent: controller, curve: Curves.easeOut)
     );
 
-    opacity = Tween(begin: 0.1, end: 1.0).animate( controller );
+    opacity = Tween(begin: 0.1, end: 1.0).animate( 
+      CurvedAnimation(parent: controller, curve: const Interval(.0, .25, curve: Curves.easeOut))
+    );
+
+    moveRight = Tween(begin: 0.0, end: 200.0).animate(
+      CurvedAnimation(parent: controller, curve: Curves.easeOut)
+    );
 
     controller.addListener(() { 
-
-      print('Status: ${controller.status}');
-
      if (controller.status == AnimationStatus.completed ){
-     // controller.reverse();
-     controller.reset();
+      //controller.reverse();
+      controller.reset();
      }
-      
-     
     });
     super.initState();
   }
@@ -65,13 +70,15 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado> with SingleTickerProv
       animation: controller,
       child: _Rectangulo(),
       builder: (BuildContext context, Widget? child) {        
-        return Transform.rotate(
-          angle: rotation.value,          
-          child: Opacity(
-            opacity: opacity.value,
-            child: child,
-          )
-
+        return Transform.translate(
+          offset: Offset(moveRight.value, 0),
+          child: Transform.rotate(
+            angle: rotation.value,          
+            child: Opacity(
+              opacity: opacity.value,
+              child: child,
+            )
+          ),
         );
       },
     );
