@@ -74,7 +74,11 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado> with SingleTickerProv
     return AnimatedBuilder(
       animation: controller,
       child: _Rectangulo(),
-      builder: (BuildContext context, Widget? child) {        
+      builder: (BuildContext context, Widget? child) {  
+
+        print('Opacity: ${ opacity.value }');
+        print('Rotation: ${ rotation.value }');        
+
         return Transform.translate(
           offset: Offset(moveRight.value, 0),
           child: Transform.rotate(
