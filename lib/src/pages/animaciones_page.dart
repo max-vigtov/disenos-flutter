@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'dart:math' as Math;
+import 'dart:math' as math;
 
 class AnimacionesPage extends StatelessWidget {
   const AnimacionesPage({super.key});
@@ -17,7 +17,6 @@ class AnimacionesPage extends StatelessWidget {
 class CuadradoAnimado extends StatefulWidget {
   const CuadradoAnimado({super.key});
 
-
   @override
   State<CuadradoAnimado> createState() => _CuadradoAnimadoState();
 }
@@ -28,15 +27,17 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado> with SingleTickerProv
   late Animation<double> rotation;
   late Animation<double> opacity;
   late Animation<double> moveRight;
+  late Animation<double> scale;
 
 
   @override
   void initState() {
+
     controller = AnimationController(
       vsync: this, duration: const Duration(milliseconds: 4000)
     );
 
-    rotation = Tween(begin: 0.0, end: 2 * Math.pi,).animate( 
+    rotation = Tween(begin: 0.0, end: 2 * math.pi,).animate( 
       CurvedAnimation(parent: controller, curve: Curves.easeOut)
     );
 
@@ -48,9 +49,13 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado> with SingleTickerProv
       CurvedAnimation(parent: controller, curve: Curves.easeOut)
     );
 
+    scale = Tween(begin: 0.0, end: 2.0).animate(
+      CurvedAnimation(parent: controller, curve: Curves.easeOut)
+    );
+
     controller.addListener(() { 
      if (controller.status == AnimationStatus.completed ){
-      //controller.reverse();
+      //controller.repeat();
       controller.reset();
      }
     });
@@ -76,7 +81,10 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado> with SingleTickerProv
             angle: rotation.value,          
             child: Opacity(
               opacity: opacity.value,
-              child: child,
+              child: Transform.scale(
+                scale: scale.value,
+                child: child
+              ),
             )
           ),
         );
@@ -97,4 +105,3 @@ class _Rectangulo extends StatelessWidget {
      );
    }
 }
-
