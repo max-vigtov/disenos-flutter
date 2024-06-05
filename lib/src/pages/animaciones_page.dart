@@ -26,6 +26,7 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado> with SingleTickerProv
   late AnimationController controller;
   late Animation<double> rotation;
   late Animation<double> opacity;
+  late Animation<double> opacityOut;
   late Animation<double> moveRight;
   late Animation<double> scale;
 
@@ -43,6 +44,10 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado> with SingleTickerProv
 
     opacity = Tween(begin: 0.1, end: 1.0).animate( 
       CurvedAnimation(parent: controller, curve: const Interval(.0, .25, curve: Curves.easeOut))
+    );
+
+    opacityOut = Tween(begin: 0.0, end: 1.0).animate( 
+      CurvedAnimation(parent: controller, curve: const Interval(.75, 1.0, curve: Curves.easeOut))
     );
 
     moveRight = Tween(begin: 0.0, end: 200.0).animate(
@@ -74,17 +79,13 @@ class _CuadradoAnimadoState extends State<CuadradoAnimado> with SingleTickerProv
     return AnimatedBuilder(
       animation: controller,
       child: _Rectangulo(),
-      builder: (BuildContext context, Widget? child) {  
-
-        print('Opacity: ${ opacity.value }');
-        print('Rotation: ${ rotation.value }');        
-
+      builder: (BuildContext context, Widget? child) {         
         return Transform.translate(
           offset: Offset(moveRight.value, 0),
           child: Transform.rotate(
             angle: rotation.value,          
             child: Opacity(
-              opacity: opacity.value,
+              opacity: opacity.value - opacityOut.value,
               child: Transform.scale(
                 scale: scale.value,
                 child: child
