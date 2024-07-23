@@ -52,7 +52,6 @@ class _AnimateSquareState extends State<AnimateSquare> with SingleTickerProvider
       CurvedAnimation(parent: controller, curve: const Interval(.75, 1.0, curve: Curves.bounceOut))
     );  
 
-
     controller.addListener(() {
       if(controller.status == AnimationStatus.completed){
         controller.reset();
