@@ -1,5 +1,5 @@
 import 'dart:math';
-
+import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class CircularProgressPage extends StatefulWidget {
@@ -9,17 +9,58 @@ class CircularProgressPage extends StatefulWidget {
   State<CircularProgressPage> createState() => _CircularProgressPageState();
 }
 
-class _CircularProgressPageState extends State<CircularProgressPage> {
+class _CircularProgressPageState extends State<CircularProgressPage> with SingleTickerProviderStateMixin{
+
+  late AnimationController controller;
+  double percentage = 0.0;
+  double newPercentage = 0.0;
+
+  @override
+  void initState() {
+    controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 800));
+    
+    controller.addListener((){
+      //print('valor controler: ${controller.value}');
+      setState(() {
+        percentage = lerpDouble(percentage, newPercentage, controller.value)!;
+        
+      });
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+          
+          percentage = newPercentage;
+          newPercentage += 10;
+
+          if(newPercentage > 100){
+            newPercentage = 0;
+            percentage = 0;
+          }
+
+          controller.forward(from: 0.0);
+          setState(() {});
+        },
+        backgroundColor: Colors.pink,
+        child: const Icon(Icons.refresh)),
       body: Center(
         child: Container(
           padding: const EdgeInsets.all(5),
           width: 300,
           height: 300,          
           child: CustomPaint(
-            painter: _MiRadialProgress(50),
+            painter: _MyRadialProgress(percentage),
           ),
         ),
       )
@@ -27,11 +68,11 @@ class _CircularProgressPageState extends State<CircularProgressPage> {
   }
 }
 
-class _MiRadialProgress extends CustomPainter{
+class _MyRadialProgress extends CustomPainter{
 
   final double percentage;
 
-  _MiRadialProgress( this.percentage);
+  _MyRadialProgress( this.percentage);
   @override
   void paint(Canvas canvas, Size size) {
 
