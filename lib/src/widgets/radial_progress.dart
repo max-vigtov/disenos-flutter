@@ -72,7 +72,6 @@ class _RadialProgressState extends State<RadialProgress> with SingleTickerProvid
         );
       },
     );
-
   }
 }
 

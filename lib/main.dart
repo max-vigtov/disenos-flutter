@@ -1,6 +1,7 @@
 // import 'package:disenos_flutter/src/challenges/animate_square_page.dart';
 // import 'package:disenos_flutter/src/labs/circular_progress_page.dart';
-import 'package:disenos_flutter/src/pages/circular_graphics_page.dart';
+//import 'package:disenos_flutter/src/pages/circular_graphics_page.dart';
+import 'package:disenos_flutter/src/pages/slideshow_page.dart';
 import 'package:flutter/material.dart';
 //import 'package:disenos_flutter/src/pages/animaciones_page.dart';
 
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
     return  MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Diseños App ',  
-      home: const CircularGraphicsPage(),
+      home: const SlideShowPage(),
       theme: ThemeData(brightness: Brightness.dark),
     );
     }
