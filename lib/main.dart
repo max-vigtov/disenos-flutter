@@ -4,8 +4,7 @@
 //import 'package:disenos_flutter/src/labs/slideshow_page.dart';
 import 'package:disenos_flutter/src/pages/pinterest_page.dart';
 import 'package:flutter/material.dart';
-
-import 'src/pages/slideshow_page.dart';
+//import 'src/pages/slideshow_page.dart';
 //import 'package:disenos_flutter/src/pages/animaciones_page.dart';
 
 
