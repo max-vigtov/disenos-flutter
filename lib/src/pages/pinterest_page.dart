@@ -37,7 +37,18 @@ class _PinteresMenuLocation extends StatelessWidget {
         height: 100,
         width: width,
         child: Align(
-          child: PinterestMenu(show: show,),
+          child: PinterestMenu(
+           show: show,
+           backgroundColor: Colors.white,
+           activeColor: Colors.blue,
+           inactiveColor: Colors.blueGrey,
+           items: [
+            PinterestButton(onPressed: () { print('icon pie_char'); }, icon: Icons.pie_chart),
+            PinterestButton(onPressed: () { print('icon search'); }, icon: Icons.search),
+            PinterestButton(onPressed: () { print('icon notifications'); }, icon: Icons.notifications),
+            PinterestButton(onPressed: () { print('icon supervised_user_circle'); }, icon: Icons.supervised_user_circle),
+           ],
+          ),
         )
       )
     );
@@ -52,17 +63,20 @@ class PinterestGrid extends StatefulWidget {
 }
 
 class _PinterestGridState extends State<PinterestGrid> {
+  
   final List items = List.generate(200, (i) => i);
   final Random random = Random();
+
   late List<double> itemHeights; // Lista para almacenar las alturas
   double previousScroll = 0;
+
   ScrollController controller = ScrollController();
 
   @override
   void initState() {
     super.initState();    
     controller.addListener(() {
-      if(controller.offset > previousScroll){
+      if(controller.offset > previousScroll && controller.offset > 150){
         Provider.of<_MenuModel>(context, listen: false).setShow = false;
       } else{
         Provider.of<_MenuModel>(context, listen: false).setShow = true;

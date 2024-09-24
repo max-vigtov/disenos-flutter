@@ -105,7 +105,7 @@ class _Dot extends StatelessWidget {
     
     } else {
       size = slideShowModel.secondaryBullet;
-      color = slideShowModel.secondaryColor;
+      color = slideShowModel.getSecondaryColor;
       
     }
 
@@ -201,7 +201,7 @@ class _SlideShowModel with ChangeNotifier{
     _primaryColor = primaryColor;
   }
 
-  Color get secondaryColor => _secondaryColor; 
+  Color get getSecondaryColor => _secondaryColor; 
   set setSecondaryColor(Color secondaryColor) {
     _secondaryColor = secondaryColor;
   }

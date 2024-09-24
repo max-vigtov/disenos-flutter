@@ -10,28 +10,40 @@ class PinterestButton {
 
 class PinterestMenu extends StatelessWidget {
 
+  final List<PinterestButton> items;
+  final Color backgroundColor;
+  final Color inactiveColor;
+  final Color activeColor;
   final bool show;
 
-  final List<PinterestButton> items = [
-    PinterestButton(onPressed: () { print('icon pie_char'); }, icon: Icons.pie_chart),
-    PinterestButton(onPressed: () { print('icon search'); }, icon: Icons.search),
-    PinterestButton(onPressed: () { print('icon notifications'); }, icon: Icons.notifications),
-    PinterestButton(onPressed: () { print('icon supervised_user_circle'); }, icon: Icons.supervised_user_circle),
-  ];
-
-   PinterestMenu({super.key,  this.show = true});
+   const PinterestMenu({
+    super.key,
+    this.show = true,
+    this.backgroundColor = Colors.white,
+    this.activeColor = Colors.blue,
+    this.inactiveColor = Colors.blueGrey,
+    required this.items
+   });
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => _MenuModel(),
+      create: (_) =>  _MenuModel(),
       child: AnimatedOpacity(
         duration: const Duration( milliseconds: 250),
         opacity: ( show ) ? 1 : 0,        
-        child: _PinterestMenuBackground(
-          child: _MenuItems(
-            menuItems: items
-          )
+        child: Builder(
+          builder: (BuildContext context) {
+          Provider.of<_MenuModel>(context).setBackgroundColor = backgroundColor;
+          Provider.of<_MenuModel>(context).setActiveColor = activeColor;
+          Provider.of<_MenuModel>(context).setInactiveColor = inactiveColor;
+
+            return _PinterestMenuBackground(
+              child: _MenuItems(
+                menuItems: items
+              )
+            );
+          },         
         ),
       ),
     );
@@ -46,13 +58,14 @@ class _PinterestMenuBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Color backgroundColor = Provider.of<_MenuModel>(context).getBackgroundColor;
     return Container(
       width: 250,
       height: 60,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(100)),
-        boxShadow: <BoxShadow> [
+      decoration:  BoxDecoration(
+        color: backgroundColor,
+        borderRadius: const BorderRadius.all(Radius.circular(100)),
+        boxShadow: const <BoxShadow> [
           BoxShadow(
             color: Colors.black38,
             blurRadius: 10,
@@ -80,7 +93,6 @@ class _MenuItems extends StatelessWidget {
   }
 }
 
-
 class _PinterestMenuButton extends StatelessWidget {
 
   final int index;
@@ -95,6 +107,8 @@ class _PinterestMenuButton extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final selectedItem = Provider.of<_MenuModel>(context).getSelectedItem;
+    final menuModel = Provider.of<_MenuModel>(context);
+
 
      return IconButton(
       onPressed: (){
@@ -103,7 +117,7 @@ class _PinterestMenuButton extends StatelessWidget {
       },
       icon: Icon(
         item.icon, 
-        color: (selectedItem == index) ? Colors.blue : Colors.blueGrey,
+        color: (selectedItem == index) ? menuModel.getActiveColor : menuModel.getInactiveColor,
         size: (selectedItem == index) ? 30 : 25,
       ),
     );
@@ -118,11 +132,29 @@ class _PinterestMenuButton extends StatelessWidget {
 
 class _MenuModel with ChangeNotifier{
   int _selectedItem = 0;
+  Color _backgroundColor = Colors.white;
+  Color _activeColor = Colors.black;
+  Color _inactiveColor = Colors.blueGrey;
 
   int get getSelectedItem => _selectedItem;
-
   set setSelectedItem (int index){
     _selectedItem = index;
     notifyListeners();
   }
+
+  Color get getBackgroundColor => _backgroundColor;
+  set setBackgroundColor(Color backgroundColor) {
+    _backgroundColor = backgroundColor;
+  }
+
+  Color get getActiveColor => _activeColor;
+  set setActiveColor(Color activeColor) {
+    _activeColor = activeColor;
+  }
+
+  Color get getInactiveColor => _inactiveColor;
+  set setInactiveColor(Color inactiveColor) {
+    _inactiveColor = inactiveColor;
+  }  
+
 }
