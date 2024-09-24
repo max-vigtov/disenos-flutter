@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class PinterestButton {
-  final VoidCallback onPressed;
+  final Function onPressed;
   final IconData icon;
 
   PinterestButton({required this.onPressed, required this.icon});
@@ -9,19 +10,29 @@ class PinterestButton {
 
 class PinterestMenu extends StatelessWidget {
 
+  final bool show;
+
   final List<PinterestButton> items = [
-    PinterestButton(onPressed: () { print('icon pie_char');}, icon: Icons.pie_chart),
-    PinterestButton(onPressed: () { print('icon search');}, icon: Icons.search),
-    PinterestButton(onPressed: () { print('icon notifications');}, icon: Icons.notifications),
-    PinterestButton(onPressed: () { print('icon supervised_user_circle');}, icon: Icons.supervised_user_circle),
+    PinterestButton(onPressed: () { print('icon pie_char'); }, icon: Icons.pie_chart),
+    PinterestButton(onPressed: () { print('icon search'); }, icon: Icons.search),
+    PinterestButton(onPressed: () { print('icon notifications'); }, icon: Icons.notifications),
+    PinterestButton(onPressed: () { print('icon supervised_user_circle'); }, icon: Icons.supervised_user_circle),
   ];
 
-   PinterestMenu({super.key});
+   PinterestMenu({super.key,  this.show = true});
 
   @override
   Widget build(BuildContext context) {
-    return  Center(
-      child: _PinterestMenuBackground(child: _MenuItems(menuItems: items)
+    return ChangeNotifierProvider(
+      create: (_) => _MenuModel(),
+      child: AnimatedOpacity(
+        duration: const Duration( milliseconds: 250),
+        opacity: ( show ) ? 1 : 0,        
+        child: _PinterestMenuBackground(
+          child: _MenuItems(
+            menuItems: items
+          )
+        ),
       ),
     );
   }
@@ -75,22 +86,43 @@ class _PinterestMenuButton extends StatelessWidget {
   final int index;
   final PinterestButton item;
 
-  const _PinterestMenuButton({ required this.index, required this.item});
+  const _PinterestMenuButton({ 
+    required this.index, 
+    required this.item
+  });
 
   @override
   Widget build(BuildContext context) {
+
+    final selectedItem = Provider.of<_MenuModel>(context).getSelectedItem;
+
      return IconButton(
-      onPressed: item.onPressed,
-        icon: Icon(
-          item.icon, 
-          color: Colors.blueGrey,
-          size: 25,
-        ),
-      );
+      onPressed: (){
+        Provider.of<_MenuModel>(context, listen: false).setSelectedItem = index;
+        item.onPressed();
+      },
+      icon: Icon(
+        item.icon, 
+        color: (selectedItem == index) ? Colors.blue : Colors.blueGrey,
+        size: (selectedItem == index) ? 30 : 25,
+      ),
+    );
     // return GestureDetector(
     //   onTap: item.onPressed(),
     //   behavior: HitTestBehavior.translucent,
      
    // );
+  }
+}
+
+
+class _MenuModel with ChangeNotifier{
+  int _selectedItem = 0;
+
+  int get getSelectedItem => _selectedItem;
+
+  set setSelectedItem (int index){
+    _selectedItem = index;
+    notifyListeners();
   }
 }
