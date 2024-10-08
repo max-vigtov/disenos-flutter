@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HeaderCuadrado extends StatelessWidget {
   const HeaderCuadrado({super.key});
@@ -301,4 +302,81 @@ class _HeaderWaveDownPainter extends CustomPainter{
     return true;
   }
    
+}
+
+
+class IconHeader extends StatelessWidget {
+
+  final IconData icon;
+  final String title;
+  final String subTitle;
+  final Color color1;
+  final Color color2;
+
+  const IconHeader({
+   super.key,
+   required this.icon,
+   required this.title,
+   required this.subTitle,
+   this.color1 = Colors.blue,
+   this.color2 = Colors.blueGrey,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+
+    const Color whiteColor = Colors.white;
+    return Stack(
+      children: [
+        _IconHeaderBackground(color1: color1, color2: color2),
+        Positioned(
+          top: -60,
+          left: -70,
+          child: FaIcon( icon, size: 250, color: Colors.white30,)
+        ),
+        Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const SizedBox(height: 80,),
+              Text( subTitle, style: const TextStyle(fontSize: 20, color: whiteColor)),
+              const SizedBox(height: 20),
+              Text(title, style: const TextStyle(fontSize: 25, color: whiteColor, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 20),
+              FaIcon( icon, size: 80, color: Colors.white,)
+            ],
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class _IconHeaderBackground extends StatelessWidget {
+  final Color color1;
+  final Color color2;
+
+  const _IconHeaderBackground({required this.color1, required this.color2});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      height: 300,    
+      decoration:  BoxDecoration(
+        //color: Colors.red,        
+        borderRadius: const BorderRadius.only(
+          bottomLeft: Radius.circular(80)),
+          gradient: LinearGradient(
+            begin: AlignmentDirectional.topCenter,
+            end: AlignmentDirectional.bottomCenter,
+            colors: [
+              color1,
+              color2
+            ]
+          )
+      ),
+    );
+  }
 }
