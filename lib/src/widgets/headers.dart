@@ -347,6 +347,15 @@ class IconHeader extends StatelessWidget {
               FaIcon( icon, size: 80, color: Colors.white,)
             ],
           ),
+        ),
+         Positioned(
+          right: -15,
+          top: 70,
+          child: RawMaterialButton(
+            shape: const CircleBorder(),
+            onPressed: () {},
+            padding: const EdgeInsets.all(15.0),
+            child: const FaIcon(FontAwesomeIcons.ellipsisVertical, color: Colors.white,))
         )
       ],
     );

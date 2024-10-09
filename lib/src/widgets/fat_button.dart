@@ -2,37 +2,59 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class FatButton extends StatelessWidget {
-  const FatButton({super.key});
+
+  final IconData icon;
+  final String text;
+  final Color color1;
+  final Color color2;
+  final GestureTapCallback onPress;
+
+  const FatButton({
+    super.key,
+    this.icon = FontAwesomeIcons.circle,
+    this.color1 = Colors.grey,
+    this.color2 = Colors.blueGrey,
+    required this.text,    
+    required this.onPress
+   });
 
   @override
   Widget build(BuildContext context) {
-    return const Stack(
-      children: [
-        _FatButtonBackground(),
-       
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-             SizedBox(height: 140, width: 40,),
-             FaIcon(
-                FontAwesomeIcons.carBurst,
-                size: 40,
-                color: Colors.white,
-              ),
-             SizedBox(width: 20),              
-             Expanded(child: Text('Motor Accident', style: TextStyle( color: Colors.white, fontSize: 18))),
-             FaIcon( FontAwesomeIcons.chevronRight, color: Colors.white,),
-             SizedBox(width: 40)
-
-          ],
-        )
-      ],
+    return GestureDetector(
+      onTap: onPress,
+      child: Stack(
+        children: [
+          _FatButtonBackground(icon: icon, color1: color1, color2: color2,),
+         
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+               const SizedBox(height: 140, width: 40,),
+                FaIcon(
+                  icon,
+                  size: 40,
+                  color: Colors.white,
+                ),
+               const SizedBox(width: 20),              
+               Expanded(child: Text(text, style: const TextStyle( color: Colors.white, fontSize: 18))),
+               const FaIcon( FontAwesomeIcons.chevronRight, color: Colors.white,),
+               const SizedBox(width: 40)
+      
+            ],
+          )
+        ],
+      ),
     );
   }
 }
 
 class _FatButtonBackground extends StatelessWidget {
-  const _FatButtonBackground();
+
+  final IconData icon;
+  final Color color1;
+  final Color color2;
+  
+  const _FatButtonBackground({required this.icon, required this.color1, required this.color2});
 
   @override
   Widget build(BuildContext context) {
@@ -49,21 +71,21 @@ class _FatButtonBackground extends StatelessWidget {
           )
         ],
         borderRadius: BorderRadius.circular( 15 ),
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           colors: [
-          Color(0xff6989f5),
-          Color(0xff906ef5),
+          color1,
+          color2
         ])
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular( 15 ),
-        child: const Stack(
+        child: Stack(
           children: [
             Positioned(
               right: -20,
               top: -20,
               child: FaIcon(
-                FontAwesomeIcons.carBurst,
+                icon,
                 size: 150,
                 color: Colors.white24,
               )
