@@ -13,7 +13,7 @@ class SliverListPage extends StatelessWidget {
             bottom: -10,
             right: 0,
             left: 40,
-            top: 850,
+            //top: 600,
             child: _ButtonNewList()
           )
         ],
@@ -29,9 +29,9 @@ class _ButtonNewList extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     return ButtonTheme(
       minWidth: size.width * 0.9,
-      height: 00,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
+          fixedSize: const Size(300, 100),
           backgroundColor:const Color(0xffED6762),
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(topLeft: Radius.circular(50))
