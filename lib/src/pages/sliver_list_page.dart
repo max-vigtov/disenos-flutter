@@ -159,30 +159,28 @@ class _Title extends StatelessWidget {
   }
 }
 
-
-
-class _TaskList extends StatelessWidget {
+// class _TaskList extends StatelessWidget {
   
-    final items = [
-    const _ListItem( 'Orange', Color(0xffF08F66) ),
-    const _ListItem( 'Family', Color(0xffF2A38A) ),
-    const _ListItem( 'Subscriptions', Color(0xffF7CDD5) ),
-    const _ListItem( 'Books', Color(0xffFCEBAF) ),
-    const _ListItem( 'Orange', Color(0xffF08F66) ),
-    const _ListItem( 'Family', Color(0xffF2A38A) ),
-    const _ListItem( 'Subscriptions',  Color(0xffF7CDD5) ),
-    const _ListItem( 'Books', Color(0xffFCEBAF) ),
-  ];
+//     final items = [
+//     const _ListItem( 'Orange', Color(0xffF08F66) ),
+//     const _ListItem( 'Family', Color(0xffF2A38A) ),
+//     const _ListItem( 'Subscriptions', Color(0xffF7CDD5) ),
+//     const _ListItem( 'Books', Color(0xffFCEBAF) ),
+//     const _ListItem( 'Orange', Color(0xffF08F66) ),
+//     const _ListItem( 'Family', Color(0xffF2A38A) ),
+//     const _ListItem( 'Subscriptions',  Color(0xffF7CDD5) ),
+//     const _ListItem( 'Books', Color(0xffFCEBAF) ),
+//   ];
 
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      physics: const BouncingScrollPhysics(),
-      itemCount: items.length,
-      itemBuilder: (context, index) => items[index]
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return ListView.builder(
+//       physics: const BouncingScrollPhysics(),
+//       itemCount: items.length,
+//       itemBuilder: (context, index) => items[index]
+//     );
+//   }
+// }
 
 class _ListItem extends StatelessWidget {
 
