@@ -1,16 +1,17 @@
 import 'package:disenos_flutter/src/routes/routes.dart';
+import 'package:disenos_flutter/src/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class LauncherPage extends StatelessWidget {
   const LauncherPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(      
       appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: const Text('Diseños de flutter', style: TextStyle( color: Colors.white),),
+        title: const Text('Diseños de flutter'),
         elevation: 5,
       ),
       body: const _OptionsList(),
@@ -24,20 +25,24 @@ class _OptionsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final appTheme = Provider.of<ThemeChanger>(context);
+    final accentColor = appTheme.getCurrenteTheme.colorScheme.primary;
+
     return ListView.separated(
       physics: const BouncingScrollPhysics(),
-      separatorBuilder:(context, index) => 
-      const Divider(
-        color: Colors.blue,
+      separatorBuilder:(context, index) =>       
+       Divider(
+        color: accentColor,
       ),
       itemCount: pageRoutes.length,
       itemBuilder:(context, index) => 
        ListTile(
-        leading:  FaIcon( pageRoutes[index].icon, color: Colors.blue ),
+        leading: FaIcon( pageRoutes[index].icon, color: accentColor ),
         title:  Text( pageRoutes[index].title) ,
-        trailing: const Icon( Icons.chevron_right, color: Colors.blue ),
-        onTap: () => Navigator.push( context, 
-          MaterialPageRoute(builder:(context) => pageRoutes[index].page,))
+        trailing: Icon( Icons.chevron_right, color: accentColor ),
+        onTap: () => Navigator.push( context, MaterialPageRoute(
+          builder:(context) => pageRoutes[index].page))
       ),
     );
   }
@@ -47,6 +52,10 @@ class _MainMenu extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
+
+    final appTheme = Provider.of<ThemeChanger>(context);
+    final accentColor = appTheme.getCurrenteTheme.colorScheme.primary;
+
     return Drawer(
       child: Column(
         children: [
@@ -55,9 +64,9 @@ class _MainMenu extends StatelessWidget {
               padding: const EdgeInsets.all(20),
               width: double.infinity,
               height: 200,
-              child: const CircleAvatar(
-                backgroundColor: Colors.blue,
-                child: Text('MV', style: TextStyle( fontSize: 50),),
+              child:  CircleAvatar(
+                backgroundColor: accentColor,
+                child: const Text('MV', style: TextStyle( fontSize: 50, color: Colors.white),),
               ),
             ),
           ),
@@ -66,12 +75,13 @@ class _MainMenu extends StatelessWidget {
           ),
       
           ListTile(
-            leading:  const Icon( Icons.lightbulb_outlined, color: Colors.blue),
+            leading: Icon( Icons.lightbulb_outlined, color: accentColor),
             title: const Text('Dark Mode'),
             trailing: Switch.adaptive(
-              value: true, 
-              activeColor: Colors.blue,
-              onChanged: ( value ) { } ),
+              value: appTheme.getDarkTheme, 
+              activeColor: accentColor,
+              onChanged: ( value ) => appTheme.setDarkTheme = value
+            ),
           ),
       
           SafeArea(
@@ -80,12 +90,13 @@ class _MainMenu extends StatelessWidget {
             left: false,
             right: false,
             child: ListTile(
-              leading:  const Icon( Icons.add_to_home_screen, color: Colors.blue),
+              leading: Icon( Icons.add_to_home_screen, color: accentColor),
               title: const Text('Custom Theme'),
               trailing: Switch.adaptive(
-                value: true, 
-                activeColor: Colors.blue,
-                onChanged: ( value ) { } ),
+                value: appTheme.getCustomTheme, 
+                activeColor: accentColor,
+                onChanged: ( value ) => appTheme.setCustomTheme = value
+              ),
             ),
           ) 
         ],

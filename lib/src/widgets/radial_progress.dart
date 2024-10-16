@@ -115,11 +115,9 @@ class _MyRadialProgress extends CustomPainter{
     final paintArc = Paint()
       ..strokeCap   = StrokeCap.round
       ..strokeWidth = primaryStoke
-      .. shader     = gradient.createShader(rect)
-      //..color       = primaryColor
+     // .. shader     = gradient.createShader(rect)
+      ..color       = primaryColor
       ..style       = PaintingStyle.stroke;
-
-      //
 
       double arcAngle = 2 * pi * ( percentage / 100 );
 

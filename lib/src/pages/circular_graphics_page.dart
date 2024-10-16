@@ -1,5 +1,7 @@
+import 'package:disenos_flutter/src/theme/theme.dart';
 import 'package:disenos_flutter/src/widgets/radial_progress.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CircularGraphicsPage extends StatefulWidget {
   const CircularGraphicsPage({super.key});
@@ -14,8 +16,10 @@ class _CircularGraphicsPageState extends State<CircularGraphicsPage> {
 
   @override
   Widget build(BuildContext context) {
+ 
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+       // backgroundColor: accentColor,
         onPressed: (){
           setState(() {
             percentage += 10;
@@ -33,14 +37,14 @@ class _CircularGraphicsPageState extends State<CircularGraphicsPage> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 CustomRadialProgress(percentage: percentage, color: Colors.blue,),
-                CustomRadialProgress(percentage: percentage, color: Colors.red,)
+                CustomRadialProgress(percentage: percentage * 1.2, color: Colors.red,)
               ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                CustomRadialProgress(percentage: percentage, color: Colors.pink,),
-                CustomRadialProgress(percentage: percentage, color: Colors.purple,)
+                CustomRadialProgress(percentage: percentage * 1.4, color: Colors.pink,),
+                CustomRadialProgress(percentage: percentage * 1.6, color: Colors.purple,)
               ],
             )            
           ],
@@ -61,13 +65,16 @@ class CustomRadialProgress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appTheme = Provider.of<ThemeChanger>(context).getCurrenteTheme;
+
     return SizedBox(
       width: 200,
       height: 200,
       child: RadialProgress(
         percentage: percentage, 
         primaryColor: color,
-        secondaryColor: Colors.grey,),
+        secondaryColor: appTheme.textTheme.bodyLarge!.color!,
+      ),
     );
   }
 }
