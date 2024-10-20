@@ -14,7 +14,14 @@ class ThemeChanger with ChangeNotifier{
       case 1:
         _darkTheme = false;
         _customTheme = false;        
-        _currenteTheme = ThemeData.light();
+        _currenteTheme = ThemeData.light().copyWith(
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color.fromARGB(255, 211, 235, 255),
+        ), 
+          colorScheme: const ColorScheme.light().copyWith(
+            primary: const Color(0xff48A0EB),
+          ),
+        );
         break;
 
       case 2:
@@ -42,9 +49,15 @@ class ThemeChanger with ChangeNotifier{
     if ( value ) {
       _currenteTheme = ThemeData.dark();
     } else {
-      _currenteTheme = ThemeData.light();
+        _currenteTheme = ThemeData.light().copyWith(
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color.fromARGB(255, 211, 235, 255),
+        ),          
+          colorScheme: const ColorScheme.light().copyWith(
+            primary: const Color(0xff48A0EB),            
+          ),
+        );      
     }
-
     notifyListeners();
   }
 

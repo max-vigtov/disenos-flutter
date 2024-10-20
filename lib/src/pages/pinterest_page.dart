@@ -29,13 +29,13 @@ class _PinteresMenuLocation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;    
+    var width = MediaQuery.of(context).size.width;    
     final show = Provider.of<_MenuModel>(context).getShow;
-
-
     final appTheme = Provider.of<ThemeChanger>(context).getCurrenteTheme;
-    //final accentColor = appTheme.getCurrenteTheme.colorScheme.primary;
 
+    if ( width > 500 ){
+      width = width - 300;
+    }
     return Positioned(
       bottom: 50,
       child: SizedBox(              
@@ -71,12 +71,11 @@ class _PinterestGridState extends State<PinterestGrid> {
   
   final List items = List.generate(200, (i) => i);
   final Random random = Random();
+  late List<double> itemHeights;
 
-  late List<double> itemHeights; // Lista para almacenar las alturas
   double previousScroll = 0;
-
   ScrollController controller = ScrollController();
-
+ 
   @override
   void initState() {
     super.initState();    
@@ -101,6 +100,13 @@ class _PinterestGridState extends State<PinterestGrid> {
 
   @override
   Widget build(BuildContext context) {
+
+    int count;
+    if (MediaQuery.of(context).size.width > 550) {
+      count = 3;
+    } else {
+      count = 2;
+    }       
     return CustomScrollView(
       controller: controller,
       slivers: [
@@ -109,7 +115,7 @@ class _PinterestGridState extends State<PinterestGrid> {
             padding: const EdgeInsets.all(8),
             sliver: SliverMasonryGrid.count(
               childCount: items.length,
-              crossAxisCount: 2,
+              crossAxisCount: count,
               mainAxisSpacing: 4.0,
               crossAxisSpacing: 4.0,
               itemBuilder: (BuildContext context, int index) {
@@ -134,8 +140,6 @@ class PinterestItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Container(
       height: height,
       margin: const EdgeInsets.all(5),

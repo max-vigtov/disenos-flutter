@@ -1,23 +1,41 @@
+import 'package:disenos_flutter/src/models/layout_model.dart';
 import 'package:disenos_flutter/src/routes/routes.dart';
 import 'package:disenos_flutter/src/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
-class LauncherPage extends StatelessWidget {
-  const LauncherPage({super.key});
+class LauncherTabletPage extends StatelessWidget {
+  const LauncherTabletPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final appTheme = Provider.of<ThemeChanger>(context).getCurrenteTheme;
+    final appTheme = Provider.of<ThemeChanger>(context);
+    final layoutModel = Provider.of<LayoutModel>(context);
 
     return Scaffold(      
       appBar: AppBar(
-        title: const Text('Diseños de flutter - Teléfono'),
+        title: const Text('Diseños de flutter - Tablet'),
         elevation: 5,
-        backgroundColor: appTheme.appBarTheme.backgroundColor,
+        backgroundColor: appTheme.getCurrenteTheme.appBarTheme.backgroundColor,
       ),
-      body: const _OptionsList(),
+      body: Row(
+        children: [
+          const SizedBox(
+            width: 300,
+            height: double.infinity,
+            child: _OptionsList(),
+          ),
+          Container(
+            width: 1,
+            height: double.infinity,
+            color: Colors.grey
+          ),
+           Expanded(
+            child: layoutModel.getCurrentPage
+          )
+        ],
+      ),
       drawer: _MainMenu(),
     );
   }
@@ -44,8 +62,11 @@ class _OptionsList extends StatelessWidget {
         leading: FaIcon( pageRoutes[index].icon, color: accentColor ),
         title:  Text( pageRoutes[index].title) ,
         trailing: Icon( Icons.chevron_right, color: accentColor ),
-        onTap: () => Navigator.push( context, MaterialPageRoute(
-          builder:(context) => pageRoutes[index].page))
+        onTap: () {
+          // Navigator.push( context, MaterialPageRoute(builder: (context) => pageRoutes[index].page))
+          final layoutModel = Provider.of<LayoutModel>(context, listen: false);
+          layoutModel.setCurrentPage = pageRoutes[index].page;
+        }                   
       ),
     );
   }
